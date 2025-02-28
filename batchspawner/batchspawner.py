@@ -394,6 +394,9 @@ class BatchSpawnerBase(Spawner):
         if status in (JobStatus.PENDING, JobStatus.RUNNING, JobStatus.UNKNOWN):
             return None
         else:
+            self.log.warn("{} not pending, running, or unknown".format(self.job_id))
+            self.log.warn("{} status object is {}".format(self.job_id, status))
+            self.log.warn("{} raw output of job status command is {}".format(self.job_id, self.job_status))
             self.clear_state()
             return 1
 
