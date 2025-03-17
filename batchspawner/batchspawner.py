@@ -365,6 +365,8 @@ class BatchSpawnerBase(Spawner):
     def clear_state(self):
         """clear job_id state"""
         super().clear_state()
+        self.log.warn("{} clearing state".format(self.job_id))
+        self.log.warn("{} raw output of job status command is {}".format(self.job_id, self.job_status))
         self.job_id = ""
         self.job_status = ""
 
@@ -394,9 +396,6 @@ class BatchSpawnerBase(Spawner):
         if status in (JobStatus.PENDING, JobStatus.RUNNING, JobStatus.UNKNOWN):
             return None
         else:
-            self.log.warn("{} not pending, running, or unknown".format(self.job_id))
-            self.log.warn("{} status object is {}".format(self.job_id, status))
-            self.log.warn("{} raw output of job status command is {}".format(self.job_id, self.job_status))
             self.clear_state()
             return 1
 
