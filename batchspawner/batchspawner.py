@@ -301,7 +301,6 @@ class BatchSpawnerBase(Spawner):
     async def query_job_status(self):
         """Check job status, return JobStatus object."""
         if self.job_id is None or len(self.job_id) == 0:
-            self.log.warn("query_job_status job status raw output is {}".format(self.job_status))
             self.job_status = ""
             return JobStatus.NOTFOUND
         subvars = self.get_req_subvars()
@@ -315,6 +314,7 @@ class BatchSpawnerBase(Spawner):
         self.log.debug("Spawner querying job: " + cmd)
         try:
             self.job_status = await self.run_command(cmd)
+            self.log.warn("{} query_job_status job status raw output is {}".format(self.req_username, self.job_status))
         except RuntimeError as e:
             # e.args[0] is stderr from the process
             self.job_status = e.args[0]
@@ -366,8 +366,6 @@ class BatchSpawnerBase(Spawner):
     def clear_state(self):
         """clear job_id state"""
         super().clear_state()
-        self.log.warn("{} clear_state".format(self.req_username))
-        self.log.warn("clear_state {} job status raw output is {}".format(self.job_id, self.job_status))
         self.job_id = ""
         self.job_status = ""
 
