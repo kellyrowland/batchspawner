@@ -366,7 +366,7 @@ class BatchSpawnerBase(Spawner):
     def clear_state(self):
         """clear job_id state"""
         super().clear_state()
-        self.log.warn("{} clear_state".format(self.name))
+        self.log.warn("{} clear_state".format(self.req_username))
         self.log.warn("clear_state {} job status raw output is {}".format(self.job_id, self.job_status))
         self.job_id = ""
         self.job_status = ""
