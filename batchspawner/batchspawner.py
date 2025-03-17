@@ -314,7 +314,7 @@ class BatchSpawnerBase(Spawner):
         self.log.debug("Spawner querying job: " + cmd)
         try:
             self.job_status = await self.run_command(cmd)
-            self.log.warn("{} query_job_status job status raw output is {}".format(self.req_username, self.job_status))
+            # self.log.warn("{} query_job_status job status raw output is {}".format(self.req_username, self.job_status))
         except RuntimeError as e:
             # e.args[0] is stderr from the process
             self.job_status = e.args[0]
@@ -392,6 +392,7 @@ class BatchSpawnerBase(Spawner):
     async def poll(self):
         """Poll the process"""
         status = await self.query_job_status()
+        self.log.warn("{} poll job status raw output is {}".format(self.req_username, self.job_status))
         if status in (JobStatus.PENDING, JobStatus.RUNNING, JobStatus.UNKNOWN):
             return None
         else:
