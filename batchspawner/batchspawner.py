@@ -300,6 +300,7 @@ class BatchSpawnerBase(Spawner):
 
     async def query_job_status(self):
         """Check job status, return JobStatus object."""
+        self.log.warn("{} query_job_status job status raw output is {}".format(self.req_username, self.job_status))
         if self.job_id is None or len(self.job_id) == 0:
             self.job_status = ""
             return JobStatus.NOTFOUND
