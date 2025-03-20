@@ -455,6 +455,7 @@ class BatchSpawnerBase(Spawner):
                 self.port = self.mock_port
 
         self.db.commit()
+        self.log.warn("{} start job status raw output is {}".format(self.req_username, self.job_status))
         self.log.info(
             "Notebook server job {} started at {}:{}".format(
                 self.job_id, self.ip, self.port
@@ -469,13 +470,16 @@ class BatchSpawnerBase(Spawner):
         Returns immediately after sending job cancellation command if now=True, otherwise
         tries to confirm that job is no longer running."""
 
+        self.log.warn("{} stop (top) job status raw output is {}".format(self.req_username, self.job_status))
         self.log.info("Stopping server job " + self.job_id)
         await self.cancel_batch_job()
         if now:
+            self.log.warn("{} stop return job status raw output is {}".format(self.req_username, self.job_status))
             return
         for i in range(10):
             status = await self.query_job_status()
             if status not in (JobStatus.RUNNING, JobStatus.UNKNOWN):
+                self.log.warn("{} stop return job status raw output is {}".format(self.req_username, self.job_status))
                 return
             await asyncio.sleep(1)
         if self.job_id:
