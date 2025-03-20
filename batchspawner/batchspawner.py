@@ -330,6 +330,7 @@ class BatchSpawnerBase(Spawner):
         elif self.state_isunknown():
             return JobStatus.UNKNOWN
         else:
+            self.log.warn("{} query_job_status notfound job status raw output is {}".format(self.req_username, self.job_status))
             return JobStatus.NOTFOUND
 
     batch_cancel_cmd = Unicode(
