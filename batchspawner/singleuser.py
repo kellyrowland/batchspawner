@@ -23,12 +23,12 @@ def main(argv=None):
     if hub_auth.client_ca:
         kwargs["verify"] = hub_auth.client_ca
 
-    requests.post(
-        url,
-        headers=headers,
-        json={"port": port},
-        **kwargs,
-    )
+    # requests.post(
+    #     url,
+    #     headers=headers,
+    #     json={"port": port},
+    #     **kwargs,
+    # )
 
     # Read the env var JUPYTERHUB_SERVICE_URL and replace port in the URL
     # with free port that we found here
